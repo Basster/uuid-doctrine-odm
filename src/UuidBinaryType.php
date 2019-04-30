@@ -8,6 +8,7 @@ use MongoBinData;
 use Ramsey\Uuid\Uuid;
 
 use JDR\Uuid\Doctrine\ODM\Exception\ConversionException;
+use Ramsey\Uuid\UuidInterface;
 
 class UuidBinaryType extends Type
 {
@@ -23,7 +24,7 @@ class UuidBinaryType extends Type
      *
      * @return Uuid
      */
-    public function convertToPHPValue($value)
+    public function convertToPHPValue($value):UuidInterface
     {
         if (null === $value) {
             return null;
@@ -53,7 +54,7 @@ class UuidBinaryType extends Type
      *
      * @return MongoBinData
      */
-    public function convertToDatabaseValue($value)
+    public function convertToDatabaseValue($value):MongoBinData
     {
         if (null === $value) {
             return null;
@@ -74,7 +75,7 @@ class UuidBinaryType extends Type
         throw ConversionException::conversionFailed($value, self::NAME);
     }
 
-    public function closureToPHP()
+    public function closureToPHP():string
     {
         return sprintf(
             'if (null === $value) {
@@ -98,7 +99,7 @@ class UuidBinaryType extends Type
         );
     }
 
-    public function closureToMongo()
+    public function closureToMongo():string
     {
         return sprintf(
             'if (null === $value) {

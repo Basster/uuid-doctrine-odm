@@ -7,13 +7,14 @@ use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
 use JDR\Uuid\Doctrine\ODM\Exception\ConversionException;
+use Ramsey\Uuid\UuidInterface;
 
 class UuidType extends Type
 {
     /**
      * The name of the doctrine type
      */
-    const NAME = 'ramsey_uuid';
+    private const NAME = 'ramsey_uuid';
 
     /**
      * Converts a value from its database representation to its PHP representation of this type.
@@ -22,7 +23,7 @@ class UuidType extends Type
      *
      * @return Uuid
      */
-    public function convertToPHPValue($value)
+    public function convertToPHPValue($value):UuidInterface
     {
         if (null === $value) {
             return null;
@@ -48,7 +49,7 @@ class UuidType extends Type
      *
      * @return string
      */
-    public function convertToDatabaseValue($value)
+    public function convertToDatabaseValue($value):string
     {
         if (null === $value) {
             return null;
@@ -61,7 +62,7 @@ class UuidType extends Type
         throw ConversionException::conversionFailed($value, self::NAME);
     }
 
-    public function closureToPHP()
+    public function closureToPHP():string
     {
         return sprintf(
             'if (null === $value) {
@@ -81,7 +82,7 @@ class UuidType extends Type
         );
     }
 
-    public function closureToMongo()
+    public function closureToMongo():string
     {
         return sprintf(
             'if (null === $value) {

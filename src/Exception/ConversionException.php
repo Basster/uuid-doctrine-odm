@@ -17,7 +17,7 @@ class ConversionException extends MappingException
      *
      * @return self
      */
-    public static function conversionFailed($value, $toType)
+    public static function conversionFailed($value, $toType): self
     {
         $value = (strlen($value) > 32) ? substr($value, 0, 20) . '...' : $value;
 
